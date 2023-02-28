@@ -96,8 +96,8 @@ Run `bundle exec rspec`.
 
 [gem-version]: https://rubygems.org/gems/validatemail
 [gem-version-img]: https://badge.fury.io/rb/validatemail.svg
-[build-status]: https://circleci.com/gh/hixdevs/validatemail/tree/prd
-[build-status-img]: https://circleci.com/gh/hixdevs/validatemail/tree/prd.svg?style=shield
+[build-status]: https://circleci.com/gh/hixdevs/email-validator-rubygem/tree/prd
+[build-status-img]: https://circleci.com/gh/hixdevs/email-validator-rubygem/tree/prd.svg?style=shield
 [abstract_home]: https://www.abstractapi.com
 [apilayer_home]: https://apilayer.com
 [hunter_home]: https://hunter.io
