@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+version = File.read("VERSION")
+File.write("VERSION", "0.0.0")
+system("gem uninstall validatemail -x")
+system("gem build validatemail.gemspec")
+system("gem install --development validatemail-0.0.0.gem")
+File.write("VERSION", version)
+system("validatemail version")
