@@ -1,0 +1,57 @@
+version: 2.1
+executors:
+  default:
+    working_directory: ~/validatemail
+    docker:
+      - image: cimg/ruby:3.2.1
+        environment:
+          BUNDLE_PATH: vendor/bundle
+jobs:
+  ci:
+    executor: default
+    steps:
+      - checkout
+      - run:
+          name: Install Bundler
+          command: gem install bundler:2.4.7
+      - run:
+          name: Bundle install
+          command: bundle install --path vendor/bundle
+      - run:
+          name: Gem build
+          command: gem build validatemail.gemspec --backtrace --strict --verbose
+      - run:
+          name: Fasterer
+          command: bundle exec fasterer
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
+      - run:
+          name: RSpec
+          command: bundle exec rspec
+      - store_artifacts:
+          path: coverage
+
+  cd:
+    executor: default
+    steps:
+      - checkout
+      - run:
+          name: Publish to RubyGems
+          command: |
+            mkdir ~/.gem
+            echo ":rubygems_api_key: $RUBYGEMS_API_KEY" > ~/.gem/credentials
+            chmod 0600 ~/.gem/credentials
+            gem build validatemail.gemspec --backtrace --strict --verbose
+            gem install validatemail-*.gem
+            gem push validatemail-*.gem
+workflows:
+  version: 2
+  cicd:
+    jobs:
+      - ci
+      - cd:
+          context: rubygems
+          filters:
+            branches:
+              only: prd
